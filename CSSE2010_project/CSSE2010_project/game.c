@@ -157,7 +157,7 @@ void flash_player(void)
 }
 
 // This function handles player movements.
-void move_player(int8_t delta_row, int8_t delta_col)
+bool move_player(int8_t delta_row, int8_t delta_col)
 {
 	//                    Implementation Suggestions
 	//                    ==========================
@@ -211,8 +211,34 @@ void move_player(int8_t delta_row, int8_t delta_col)
 	// |    message area of the terminal and return a valid indicating a |
 	// |    valid move.                                                  |
 	// +-----------------------------------------------------------------+
-
-	// <YOUR CODE HERE>
+	uint8_t old_row = player_row;
+	uint8_t old_col = player_col;
+	paint_square(player_row, player_col);
+	player_row += delta_row;
+	if (player_row > 200) {
+		player_row = 7;
+	}
+	if (player_row > 7) {
+		player_row = 0;
+	}
+	
+	player_col += delta_col;
+	if (player_col > 200) {
+		player_col = 15;
+	}
+	if (player_col > 15) {
+		player_col = 0;
+	}
+	
+	if (board[player_row][player_col] == WALL) {
+		player_row = old_row;
+		player_col = old_col;
+		return false;
+	} else {
+		flash_player();
+		return true;
+	}
+	
 }
 
 // This function checks if the game is over (i.e., the level is solved), and

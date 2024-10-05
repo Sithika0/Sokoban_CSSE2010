@@ -39,7 +39,7 @@ void initialise_game(void);
 /// </summary>
 /// <param name="delta_row">The row delta.</param>
 /// <param name="delta_col">The column delta.</param>
-void move_player(int8_t delta_row, int8_t delta_col);
+bool move_player(int8_t delta_row, int8_t delta_col);
 
 /// <summary>
 /// Detects whether the game is over (i.e., current level solved).

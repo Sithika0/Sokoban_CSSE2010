@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -40,6 +40,23 @@
   </dependencies>
 </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.stk500</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E9515</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_stk500>
+      <ToolOptions>
+        <InterfaceProperties>
+          <IspClock>125000</IspClock>
+        </InterfaceProperties>
+        <InterfaceName>ISP</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.stk500</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>STK500</ToolName>
+    </com_atmel_avrdbg_tool_stk500>
+    <avrtoolinterface>ISP</avrtoolinterface>
+    <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -120,7 +137,70 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.c">
+    <Compile Include="buttons.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="buttons.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="game.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="game.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ledmatrix.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ledmatrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pixel_colour.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="serialio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="serialio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="startscrn.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="startscrn.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="terminalio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="terminalio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer0.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer1.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer2.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

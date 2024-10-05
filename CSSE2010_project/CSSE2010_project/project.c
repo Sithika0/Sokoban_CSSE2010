@@ -3,7 +3,7 @@
  *
  * Authors: Peter Sutton, Luke Kamols, Jarrod Bennett, Cody Burnett,
  *          Bradley Stone, Yufeng Gao
- * Modified by: <YOUR NAME HERE>
+ * Modified by: Sithika Mannakkara
  *
  * Main project event loop and entry point.
  */
@@ -39,6 +39,7 @@ void new_game(void);
 void play_game(void);
 void handle_game_over(void);
 
+bool valid_move = true;
 /////////////////////////////// main //////////////////////////////////
 int main(void)
 {
@@ -82,7 +83,7 @@ void start_screen(void)
 	move_terminal_cursor(11, 5);
 	// Change this to your name and student number. Remember to remove the
 	// chevrons - "<" and ">"!
-	printf_P(PSTR("CSSE2010/7201 Project by <YOUR NAME> - <YOUR STUDENT NUMBER>"));
+	printf_P(PSTR("CSSE2010/7201 Project by Sithika Mannakkara - 48016722"));
 
 	// Setup the start screen on the LED matrix.
 	setup_start_screen();
@@ -151,15 +152,29 @@ void play_game(void)
 		// 0 has been pushed, we get BUTTON0_PUSHED, and likewise, if
 		// button 1 has been pushed, we get BUTTON1_PUSHED, and so on.
 		ButtonState btn = button_pushed();
-
-		if (btn == BUTTON0_PUSHED)
-		{
-			// Move the player, see move_player(...) in game.c.
-			// Also remember to reset the flash cycle here.
-			move_player(0, 1);
-		}
+		
+		// Move the player, see move_player(...) in game.c.
+		// Also remember to reset the flash cycle here.
+		if (btn == BUTTON0_PUSHED) valid_move = move_player(0, 1);
+		if (btn == BUTTON1_PUSHED) valid_move = move_player(-1, 0);
+		if (btn == BUTTON2_PUSHED) valid_move = move_player(1, 0);
+		if (btn == BUTTON3_PUSHED) valid_move = move_player(0, -1);
 		// Now, repeat for the other buttons, and combine with serial
 		// inputs.
+		if (serial_input_available()) {
+			int serial_input = fgetc(stdin);
+			if (serial_input == 'd' || serial_input == 'D') valid_move = move_player(0, 1);
+			if (serial_input == 's' || serial_input == 'S') valid_move = move_player(-1, 0);
+			if (serial_input == 'w' || serial_input == 'W') valid_move = move_player(1, 0);
+			if (serial_input == 'a' || serial_input == 'A') valid_move = move_player(0, -1);
+		}
+		
+		if (!valid_move) {
+			clear_terminal();
+			move_terminal_cursor(11, 5);
+			printf_P(PSTR("The player hit a wall!"));
+			valid_move = true;
+		}
 
 		uint32_t current_time = get_current_time();
 		if (current_time >= last_flash_time + 200)
