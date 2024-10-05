@@ -230,9 +230,51 @@ bool move_player(int8_t delta_row, int8_t delta_col)
 		player_col = 0;
 	}
 	
+	// Boxes
+	uint8_t row_infront = old_row + 1;
+	uint8_t row_behind = old_row - 1;
+	uint8_t col_right = old_col + 1;
+	uint8_t col_left = old_col - 1;
+	if (delta_row > 0 && delta_col == 0 && board[row_infront][old_col] == BOX) {
+		// Move box up
+		board[row_infront][old_col] = ROOM;
+		board[row_infront + 1][old_col] = BOX;
+		paint_square(row_infront, player_col);
+		paint_square(row_infront + 1, player_col);
+	} else if (delta_row < 0 && delta_col == 0 && board[row_behind][old_col] == BOX) {
+		// Move box down
+		board[row_behind][old_col] = ROOM;
+		board[row_behind - 1][old_col] = BOX;
+		paint_square(row_behind - 1, old_col);
+	} else if (delta_row == 0 && delta_col > 0 && board[old_row][col_right] == BOX) {
+		// Move box right
+		board[old_row][col_right] = ROOM;
+		board[old_row][col_right + 1] = BOX;
+		paint_square(old_row, col_right);
+		paint_square(old_row, col_right + 1);
+	} else if (delta_row == 0 && delta_col < 0 && board[old_row][col_left] == BOX) {
+		// Move box left
+		board[old_row][col_left] = ROOM;
+		board[old_row][col_left - 1] = BOX;
+		paint_square(old_row, col_left);
+		paint_square(old_row, col_left - 1);
+	}
+	
 	if (board[player_row][player_col] == WALL) {
 		player_row = old_row;
 		player_col = old_col;
+		
+		clear_terminal();
+		move_terminal_cursor(11, 5);
+		int random_num = rand() % 3;
+		if (random_num == 0) {
+			printf_P(PSTR("The player hit a wall!"));
+		} else if (random_num == 1) {
+			printf_P(PSTR("Player can't move through walls."));
+		} else {
+			printf_P(PSTR("The wall is obstructing you."));
+		}
+		
 		return false;
 	} else {
 		flash_player();

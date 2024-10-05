@@ -101,6 +101,7 @@ void start_screen(void)
 		// the start screen by breaking out of this infinite loop.
 		if (button_pushed() != NO_BUTTON_PUSHED)
 		{
+			srand(get_current_time());
 			break;
 		}
 
@@ -114,6 +115,7 @@ void start_screen(void)
 			// breaking out of this loop.
 			if (serial_input == 's' || serial_input == 'S')
 			{
+				srand(get_current_time());
 				break;
 			}
 		}
@@ -169,12 +171,12 @@ void play_game(void)
 			if (serial_input == 'a' || serial_input == 'A') valid_move = move_player(0, -1);
 		}
 		
+		// for counting valid moves.
 		if (!valid_move) {
-			clear_terminal();
-			move_terminal_cursor(11, 5);
-			printf_P(PSTR("The player hit a wall!"));
 			valid_move = true;
 		}
+		
+		// Move box if player is on box
 
 		uint32_t current_time = get_current_time();
 		if (current_time >= last_flash_time + 200)
